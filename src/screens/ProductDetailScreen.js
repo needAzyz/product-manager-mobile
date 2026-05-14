@@ -18,7 +18,7 @@ export default function ProductDetailScreen({ route, navigation }) {
       const res = await getBatches(product.code);
       setBatches(res.data);
     } catch (e) {
-      Alert.alert('Error', 'Failed to load batches');
+      Alert.alert('Erreur', 'Échec du chargement des lots');
     } finally {
       setLoading(false);
       setRefreshing(false);
@@ -28,11 +28,11 @@ export default function ProductDetailScreen({ route, navigation }) {
   useFocusEffect(useCallback(() => { fetchBatches(); }, []));
 
   const handleDeleteBatch = (id, idx) => {
-    Alert.alert('Delete Batch', `Delete batch #${idx + 1}?`, [
-      { text: 'Cancel', style: 'cancel' },
-      { text: 'Delete', style: 'destructive', onPress: async () => {
+    Alert.alert('Supprimer le Lot', `Supprimer le lot n°${idx + 1} ?`, [
+      { text: 'Annuler', style: 'cancel' },
+      { text: 'Supprimer', style: 'destructive', onPress: async () => {
         try { await deleteBatch(id); fetchBatches(); }
-        catch (e) { Alert.alert('Error', 'Failed to delete batch'); }
+        catch (e) { Alert.alert('Erreur', 'Échec de la suppression du lot'); }
       }},
     ]);
   };
@@ -58,7 +58,7 @@ export default function ProductDetailScreen({ route, navigation }) {
           </View>
           <View style={{ flex: 1 }} />
           <TouchableOpacity onPress={() => handleDeleteBatch(item._id, index)} hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}>
-            <Text style={styles.deleteText}>Delete</Text>
+            <Text style={styles.deleteText}>Supprimer</Text>
           </TouchableOpacity>
         </View>
 
@@ -72,15 +72,15 @@ export default function ProductDetailScreen({ route, navigation }) {
 
         <View style={styles.batchDetails}>
           <View style={styles.detailCol}>
-            <Text style={styles.detailLabel}>Quantity</Text>
+            <Text style={styles.detailLabel}>Quantité</Text>
             <Text style={styles.detailValue}>{item.quantity} {item.unite || product.unite}</Text>
           </View>
           <View style={styles.detailCol}>
-            <Text style={styles.detailLabel}>Manufactured</Text>
+            <Text style={styles.detailLabel}>Fabriqué</Text>
             <Text style={styles.detailValue}>{formatDate(item.manufactured_at)}</Text>
           </View>
           <View style={styles.detailCol}>
-            <Text style={styles.detailLabel}>Expires</Text>
+            <Text style={styles.detailLabel}>Expire</Text>
             <Text style={styles.detailValue}>{formatDate(item.expiry_date)}</Text>
           </View>
         </View>
@@ -100,8 +100,8 @@ export default function ProductDetailScreen({ route, navigation }) {
               <Text style={styles.catPillText}>{catName}</Text>
             </View>
           ) : null}
-          <Text style={styles.infoText}>Unit: {product.unite || '-'}</Text>
-          <Text style={styles.infoText}>Batches: {batches.length}</Text>
+          <Text style={styles.infoText}>Unité : {product.unite || '-'}</Text>
+          <Text style={styles.infoText}>Lots : {batches.length}</Text>
         </View>
       </View>
 
@@ -116,7 +116,7 @@ export default function ProductDetailScreen({ route, navigation }) {
           renderItem={renderBatch}
           refreshControl={<RefreshControl refreshing={refreshing} onRefresh={() => { setRefreshing(true); fetchBatches(); }} tintColor={colors.green} />}
           contentContainerStyle={styles.list}
-          ListEmptyComponent={<Text style={styles.emptyText}>No batches yet</Text>}
+          ListEmptyComponent={<Text style={styles.emptyText}>Aucun lot pour le moment</Text>}
         />
       )}
 
@@ -124,7 +124,7 @@ export default function ProductDetailScreen({ route, navigation }) {
         style={styles.addBtn}
         onPress={() => navigation.navigate('AddBatch', { productCode: product.code, unite: product.unite })}
       >
-        <Text style={styles.addBtnText}>+ Add Batch</Text>
+        <Text style={styles.addBtnText}>+ Ajouter un Lot</Text>
       </TouchableOpacity>
     </View>
   );

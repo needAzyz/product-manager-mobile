@@ -16,7 +16,7 @@ export default function AddProductScreen({ route, navigation }) {
 
   const handleSave = async () => {
     if (!code.trim() || !designation.trim()) {
-      Alert.alert('Error', 'Code and Designation are required');
+      Alert.alert('Erreur', 'Le Code et la Désignation sont obligatoires');
       return;
     }
     setSaving(true);
@@ -29,8 +29,8 @@ export default function AddProductScreen({ route, navigation }) {
       });
       navigation.goBack();
     } catch (e) {
-      const msg = e.response?.data?.error || 'Failed to create product';
-      Alert.alert('Error', msg);
+      const msg = e.response?.data?.error || 'Échec de la création du produit';
+      Alert.alert('Erreur', msg);
     } finally {
       setSaving(false);
     }
@@ -40,15 +40,15 @@ export default function AddProductScreen({ route, navigation }) {
     <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
       <ScrollView contentContainerStyle={styles.scroll}>
         <Text style={styles.label}>Code</Text>
-        <TextInput style={styles.input} value={code} onChangeText={setCode} placeholder="Product code" placeholderTextColor={colors.textMuted} />
+        <TextInput style={styles.input} value={code} onChangeText={setCode} placeholder="Code du produit" placeholderTextColor={colors.textMuted} />
 
-        <Text style={styles.label}>Designation</Text>
-        <TextInput style={styles.input} value={designation} onChangeText={setDesignation} placeholder="Product name" placeholderTextColor={colors.textMuted} />
+        <Text style={styles.label}>Désignation</Text>
+        <TextInput style={styles.input} value={designation} onChangeText={setDesignation} placeholder="Nom du produit" placeholderTextColor={colors.textMuted} />
 
-        <Text style={styles.label}>Unit</Text>
-        <TextInput style={styles.input} value={unite} onChangeText={setUnite} placeholder="e.g. KG, L, PCS" placeholderTextColor={colors.textMuted} />
+        <Text style={styles.label}>Unité</Text>
+        <TextInput style={styles.input} value={unite} onChangeText={setUnite} placeholder="ex. KG, L, PCS" placeholderTextColor={colors.textMuted} />
 
-        <Text style={styles.label}>Category</Text>
+        <Text style={styles.label}>Catégorie</Text>
         <View style={styles.catGrid}>
           {(categories || []).map(c => (
             <TouchableOpacity
@@ -64,7 +64,7 @@ export default function AddProductScreen({ route, navigation }) {
         </View>
 
         <TouchableOpacity style={[styles.saveBtn, saving && { opacity: 0.6 }]} onPress={handleSave} disabled={saving}>
-          <Text style={styles.saveBtnText}>{saving ? 'Creating...' : 'Create Product'}</Text>
+          <Text style={styles.saveBtnText}>{saving ? 'Création...' : 'Créer le Produit'}</Text>
         </TouchableOpacity>
       </ScrollView>
     </KeyboardAvoidingView>

@@ -25,18 +25,18 @@ export default function ScannerScreen({ navigation }) {
       if (e.response?.status === 404) {
         // Product not found — offer to create
         Alert.alert(
-          'Product Not Found',
-          `No product with code "${data}" exists. Create it?`,
+          'Produit Non Trouvé',
+          `Aucun produit avec le code "${data}" n'existe. Le créer ?`,
           [
-            { text: 'Cancel', onPress: () => { setScanned(false); setProcessing(false); } },
-            { text: 'Create', onPress: async () => {
+            { text: 'Annuler', onPress: () => { setScanned(false); setProcessing(false); } },
+            { text: 'Créer', onPress: async () => {
               const catRes = await getCategories();
               navigation.replace('AddProduct', { categories: catRes.data, prefillCode: data });
             }},
           ]
         );
       } else {
-        Alert.alert('Error', 'Failed to look up product');
+        Alert.alert('Erreur', 'Échec de la recherche du produit');
         setScanned(false);
         setProcessing(false);
       }
@@ -48,9 +48,9 @@ export default function ScannerScreen({ navigation }) {
   if (!permission.granted) {
     return (
       <View style={styles.center}>
-        <Text style={styles.permText}>Camera permission is needed to scan barcodes</Text>
+        <Text style={styles.permText}>L'autorisation de l'appareil photo est nécessaire pour scanner les codes-barres</Text>
         <TouchableOpacity style={styles.permBtn} onPress={requestPermission}>
-          <Text style={styles.permBtnText}>Grant Permission</Text>
+          <Text style={styles.permBtnText}>Accorder l'Autorisation</Text>
         </TouchableOpacity>
       </View>
     );
@@ -72,19 +72,19 @@ export default function ScannerScreen({ navigation }) {
           <View style={[styles.corner, styles.bottomLeft]} />
           <View style={[styles.corner, styles.bottomRight]} />
         </View>
-        <Text style={styles.hint}>Point camera at a barcode</Text>
+        <Text style={styles.hint}>Pointez l'appareil photo vers un code-barres</Text>
       </View>
 
       {processing && (
         <View style={styles.processingOverlay}>
           <ActivityIndicator size="large" color={colors.white} />
-          <Text style={styles.processingText}>Looking up product...</Text>
+          <Text style={styles.processingText}>Recherche du produit...</Text>
         </View>
       )}
 
       {scanned && !processing && (
         <TouchableOpacity style={styles.rescanBtn} onPress={() => setScanned(false)}>
-          <Text style={styles.rescanText}>Tap to scan again</Text>
+          <Text style={styles.rescanText}>Appuyez pour scanner à nouveau</Text>
         </TouchableOpacity>
       )}
     </View>

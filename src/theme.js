@@ -31,10 +31,10 @@ export const getStatusColor = (product) => {
 };
 
 export const getStatusText = (product) => {
-  if (product.expired_count > 0) return 'Expired';
-  if (product.expiring_count > 0) return 'Expiring';
-  if (product.batch_count > 0) return 'Fresh';
-  return 'No batches';
+  if (product.expired_count > 0) return 'Expiré';
+  if (product.expiring_count > 0) return 'Expire Bientôt';
+  if (product.batch_count > 0) return 'Frais';
+  return 'Aucun lot';
 };
 
 export const getBatchStatusColor = (batch) => {
@@ -52,13 +52,13 @@ export const getBatchStatus = (batch) => {
   const now = Date.now();
   const expiry = new Date(batch.expiry_date).getTime();
   const mfg = new Date(batch.manufactured_at).getTime();
-  if (expiry < now) return { text: 'Expired', color: colors.red };
+  if (expiry < now) return { text: 'Expiré', color: colors.red };
   const totalLife = expiry - mfg;
   const elapsed = now - mfg;
   const pct = totalLife > 0 ? Math.round((elapsed / totalLife) * 100) : 0;
   const remaining = 100 - pct;
-  if (pct >= 90) return { text: `Expiring (${remaining}%)`, color: colors.yellow };
-  return { text: `Fresh (${remaining}%)`, color: colors.green };
+  if (pct >= 90) return { text: `Expire Bientôt (${remaining}%)`, color: colors.yellow };
+  return { text: `Frais (${remaining}%)`, color: colors.green };
 };
 
 export const getBatchRemaining = (batch) => {

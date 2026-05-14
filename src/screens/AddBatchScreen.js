@@ -32,11 +32,11 @@ export default function AddBatchScreen({ route, navigation }) {
 
   const handleSave = async () => {
     const qty = parseFloat(quantity);
-    if (isNaN(qty) || qty <= 0) { Alert.alert('Error', 'Enter a valid quantity'); return; }
+    if (isNaN(qty) || qty <= 0) { Alert.alert('Erreur', 'Entrez une quantité valide'); return; }
     const mfg = parseDate(mfgDate);
     const exp = parseDate(expDate);
-    if (!mfg || !exp) { Alert.alert('Error', 'Use format: DD/MM/YYYY HH:MM'); return; }
-    if (exp <= mfg) { Alert.alert('Error', 'Expiry must be after manufacture date'); return; }
+    if (!mfg || !exp) { Alert.alert('Erreur', 'Utilisez le format : JJ/MM/AAAA HH:MM'); return; }
+    if (exp <= mfg) { Alert.alert('Erreur', 'L\'expiration doit être après la date de fabrication'); return; }
 
     setSaving(true);
     try {
@@ -49,7 +49,7 @@ export default function AddBatchScreen({ route, navigation }) {
       });
       navigation.goBack();
     } catch (e) {
-      Alert.alert('Error', e.response?.data?.error || 'Failed to add batch');
+      Alert.alert('Erreur', e.response?.data?.error || 'Échec de l\'ajout du lot');
     } finally {
       setSaving(false);
     }
@@ -58,28 +58,28 @@ export default function AddBatchScreen({ route, navigation }) {
   return (
     <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
       <ScrollView contentContainerStyle={styles.scroll}>
-        <Text style={styles.subtitle}>Product: {productCode}</Text>
+        <Text style={styles.subtitle}>Produit : {productCode}</Text>
 
-        <Text style={styles.label}>Quantity</Text>
+        <Text style={styles.label}>Quantité</Text>
         <TextInput
           style={styles.input} value={quantity} onChangeText={setQuantity}
           keyboardType="numeric" placeholder="1" placeholderTextColor={colors.textMuted}
         />
 
-        <Text style={styles.label}>Manufactured Date (DD/MM/YYYY HH:MM)</Text>
+        <Text style={styles.label}>Date de Fabrication (JJ/MM/AAAA HH:MM)</Text>
         <TextInput
           style={styles.input} value={mfgDate} onChangeText={setMfgDate}
           placeholder="14/05/2026 01:00" placeholderTextColor={colors.textMuted}
         />
 
-        <Text style={styles.label}>Expiry Date (DD/MM/YYYY HH:MM)</Text>
+        <Text style={styles.label}>Date d'Expiration (JJ/MM/AAAA HH:MM)</Text>
         <TextInput
           style={styles.input} value={expDate} onChangeText={setExpDate}
           placeholder="14/06/2026 01:00" placeholderTextColor={colors.textMuted}
         />
 
         <TouchableOpacity style={[styles.saveBtn, saving && { opacity: 0.6 }]} onPress={handleSave} disabled={saving}>
-          <Text style={styles.saveBtnText}>{saving ? 'Adding...' : 'Add Batch'}</Text>
+          <Text style={styles.saveBtnText}>{saving ? 'Ajout...' : 'Ajouter un Lot'}</Text>
         </TouchableOpacity>
       </ScrollView>
     </KeyboardAvoidingView>
